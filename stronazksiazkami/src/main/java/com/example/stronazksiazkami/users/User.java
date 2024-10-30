@@ -1,4 +1,4 @@
-package com.example.stronazksiazkami.users.model;
+package com.example.stronazksiazkami.users;
 
 
 import jakarta.persistence.*;

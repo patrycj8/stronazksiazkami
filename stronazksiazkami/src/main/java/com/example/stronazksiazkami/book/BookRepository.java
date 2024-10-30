@@ -1,6 +1,5 @@
-package com.example.stronazksiazkami.book.repository;
+package com.example.stronazksiazkami.book;
 
-import com.example.stronazksiazkami.book.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

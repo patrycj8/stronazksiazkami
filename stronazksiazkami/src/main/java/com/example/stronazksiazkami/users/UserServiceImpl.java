@@ -1,8 +1,6 @@
-package com.example.stronazksiazkami.users.service;
+package com.example.stronazksiazkami.users;
 
 
-import com.example.stronazksiazkami.users.model.User;
-import com.example.stronazksiazkami.users.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +13,12 @@ import java.util.Optional;
 public class UserServiceImpl {
 
     private final UserRepository usersRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    //private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository usersResposiory, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository usersResposiory/*, BCryptPasswordEncoder passwordEncoder*/) {
         this.usersRepository = usersResposiory;
-        this.passwordEncoder = passwordEncoder;
+        //this.passwordEncoder = passwordEncoder;
     }
     public List<User> getUsers()
     {
@@ -32,9 +30,9 @@ public class UserServiceImpl {
         if (usersOptional.isPresent()) {
             throw new IllegalArgumentException("email exists");
         }
-        String encryptedPassword = passwordEncoder.encode(users.getPassword());
-        users.setPassword(encryptedPassword);
-
+        //String encryptedPassword = passwordEncoder.encode(users.getPassword());
+        //users.setPassword(encryptedPassword);
+        User user = usersRepository.save(users);
         return usersRepository.save(users);
     }
 

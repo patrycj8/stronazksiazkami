@@ -1,7 +1,5 @@
-package com.example.stronazksiazkami.publisher.controller;
+package com.example.stronazksiazkami.publisher;
 
-import com.example.stronazksiazkami.publisher.model.Publisher;
-import com.example.stronazksiazkami.publisher.service.PublisherServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,10 +34,12 @@ public class PublisherController {
     {
         publishersService.deletePublishers(publishersId);
     }
+
     @PutMapping(path = "/{publishersId}")
-    public void updatePublisher(@PathVariable("spublihersId") Integer publishersId,
-                              @RequestParam(required = false) String name,
-                              @RequestParam(required = false) String phone) {
-        publishersService.updatePublisher(publishersId, name, phone);
+    public ResponseEntity<Publisher> updatePublisher(@PathVariable("publishersId") Integer publishersId,
+                                                     @RequestBody Publisher updatedPublisher)
+    {
+        publishersService.updatePublisher(publishersId, updatedPublisher);
+        return ResponseEntity.ok(updatedPublisher);
     }
 }

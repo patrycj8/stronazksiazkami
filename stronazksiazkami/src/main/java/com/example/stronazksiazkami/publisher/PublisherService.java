@@ -1,6 +1,4 @@
-package com.example.stronazksiazkami.publisher.service;
-
-import com.example.stronazksiazkami.publisher.model.Publisher;
+package com.example.stronazksiazkami.publisher;
 
 import java.util.List;
 
@@ -10,6 +8,6 @@ public interface PublisherService {
 
     Publisher addNewPublishers(Publisher publishers);
     void deletePublishers(Integer publishersId);
-    void updatePublisher(Integer publishersId, String name, String phone);
+    void updatePublisher(Integer publishersId, Publisher updatedPublisher);
 
 }

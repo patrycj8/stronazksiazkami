@@ -1,7 +1,5 @@
-package com.example.stronazksiazkami.author.service;
+package com.example.stronazksiazkami.author;
 
-import com.example.stronazksiazkami.author.model.Author;
-import com.example.stronazksiazkami.author.repository.AuthorRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

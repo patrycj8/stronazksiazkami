@@ -1,7 +1,5 @@
-package com.example.stronazksiazkami.author.controller;
+package com.example.stronazksiazkami.author;
 
-import com.example.stronazksiazkami.author.model.Author;
-import com.example.stronazksiazkami.author.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

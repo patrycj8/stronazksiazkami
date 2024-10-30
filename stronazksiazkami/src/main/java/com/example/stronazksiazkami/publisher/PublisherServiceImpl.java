@@ -1,13 +1,10 @@
-package com.example.stronazksiazkami.publisher.service;
+package com.example.stronazksiazkami.publisher;
 
-import com.example.stronazksiazkami.publisher.model.Publisher;
-import com.example.stronazksiazkami.publisher.repository.PublisherRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -44,19 +41,30 @@ public class PublisherServiceImpl {
     }
 
     @Transactional
-    public void updatePublisher(Integer publishersId, String name, String phone) {
-        Publisher publishers = publishersRepository.findById(publishersId).orElseThrow(() -> new IllegalArgumentException("users with id " + publishersId + " does not exist"));
-        if (name != null && name.length() >0 && !Objects.equals(publishers.getName(), name)) {
-            publishers.setName(name);
+    public void updatePublisher(Integer publishersId, Publisher updatedPublisher) {
+        Publisher publisher = publishersRepository.findById(publishersId)
+                .orElseThrow(() -> new IllegalArgumentException("Publisher with id " + publishersId + " does not exist"));
+
+        if (updatedPublisher.getName() != null) {
+            publisher.setName(updatedPublisher.getName());
         }
-        if (phone != null && !phone.isBlank() && !Objects.equals(publishers.getPhone(), phone)) {
-            Optional<Publisher> publishersOptional = publishersRepository.findPublishersByPhone(phone);
-            if (publishersOptional.isPresent()) {
-                throw new IllegalArgumentException("Publisher with this phone number already exists");
+        if (updatedPublisher.getPhone() != null && !updatedPublisher.getPhone().isBlank()) {
+            Optional<Publisher> publisherOptional = publishersRepository.findPublishersByPhone(updatedPublisher.getPhone());
+            if (publisherOptional.isPresent() && publisherOptional.get().getId() != (publisher.getId())) {
+                throw new IllegalArgumentException("W");
             }
-            publishers.setPhone(phone);
-
+            publisher.setPhone(updatedPublisher.getPhone());
         }
-    }
+        if (updatedPublisher.getEmail() != null) {
+            publisher.setEmail(updatedPublisher.getEmail());
+        }
+        if (updatedPublisher.getAddress() != null) {
+            publisher.setAddress(updatedPublisher.getAddress());
+        }
+        if (updatedPublisher.getWebsite() != null) {
+            publisher.setWebsite(updatedPublisher.getWebsite());
+        }
 
+        publishersRepository.save(publisher);
+    }
 }

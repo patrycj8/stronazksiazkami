@@ -1,4 +1,4 @@
-package com.example.stronazksiazkami.publisher.model;
+package com.example.stronazksiazkami.publisher;
 
 import jakarta.persistence.*;
 

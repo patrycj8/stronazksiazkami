@@ -1,6 +1,4 @@
-package com.example.stronazksiazkami.book.service;
-
-import com.example.stronazksiazkami.book.model.Book;
+package com.example.stronazksiazkami.book;
 
 import java.util.List;
 
@@ -10,5 +8,5 @@ public interface BookService
 
     Book addNewBooks(Book books);
     void deleteBooks(Integer booksId);
-    void updateBooks(Integer booksId, String title);
+    Book updateBooks(Integer booksId, Book updatedBook);
 }

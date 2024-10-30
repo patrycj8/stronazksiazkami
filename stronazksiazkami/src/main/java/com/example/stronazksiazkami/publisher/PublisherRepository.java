@@ -1,6 +1,5 @@
-package com.example.stronazksiazkami.publisher.repository;
+package com.example.stronazksiazkami.publisher;
 
-import com.example.stronazksiazkami.publisher.model.Publisher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

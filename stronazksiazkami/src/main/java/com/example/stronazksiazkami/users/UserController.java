@@ -1,7 +1,5 @@
-package com.example.stronazksiazkami.users.controller;
+package com.example.stronazksiazkami.users;
 
-import com.example.stronazksiazkami.users.model.User;
-import com.example.stronazksiazkami.users.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

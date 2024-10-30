@@ -1,6 +1,4 @@
-package com.example.stronazksiazkami.users.service;
-
-import com.example.stronazksiazkami.users.model.User;
+package com.example.stronazksiazkami.users;
 
 import java.util.List;
 

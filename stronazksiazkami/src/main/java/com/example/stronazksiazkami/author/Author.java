@@ -1,4 +1,4 @@
-package com.example.stronazksiazkami.author.model;
+package com.example.stronazksiazkami.author;
 
 import jakarta.persistence.*;
 

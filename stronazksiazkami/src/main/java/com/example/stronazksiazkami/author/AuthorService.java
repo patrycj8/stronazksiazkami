@@ -1,6 +1,4 @@
-package com.example.stronazksiazkami.author.service;
-
-import com.example.stronazksiazkami.author.model.Author;
+package com.example.stronazksiazkami.author;
 
 import java.util.List;
 

@@ -1,7 +1,5 @@
-package com.example.stronazksiazkami.book.controller;
+package com.example.stronazksiazkami.book;
 
-import com.example.stronazksiazkami.book.model.Book;
-import com.example.stronazksiazkami.book.service.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,9 +36,11 @@ public class BookController {
     }
 
     @PutMapping(path = "/{booksId}")
-    public void updateBooks(@PathVariable("booksId") Integer booksId,
-                              @RequestParam(required = false) String title){
-        booksService.updateBooks(booksId, title);
+    public ResponseEntity<Book> updateBooks(@PathVariable("booksId") Integer booksId,
+                                            @RequestBody Book updatedBook) {
+        Book updated = booksService.updateBooks(booksId, updatedBook);
+        return ResponseEntity.ok(updated);
     }
+
 
 }
