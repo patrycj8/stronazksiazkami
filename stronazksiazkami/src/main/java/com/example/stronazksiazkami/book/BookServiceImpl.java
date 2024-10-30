@@ -55,8 +55,8 @@ public class BookServiceImpl implements BookService {
         if (updatedBook.getLanguage() != null) {
             existingBook.setLanguage(updatedBook.getLanguage());
         }
-        if (updatedBook.getCategory() != null) {
-            existingBook.setCategory(updatedBook.getCategory());
+        if (updatedBook.getGenre() != null) {
+            existingBook.setGenre(updatedBook.getGenre());
         }
         if (updatedBook.getPages() != null) {
             existingBook.setPages(updatedBook.getPages());

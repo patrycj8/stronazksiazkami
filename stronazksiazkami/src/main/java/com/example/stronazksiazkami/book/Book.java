@@ -110,11 +110,11 @@ public class Book {
         this.language = language;
     }
 
-    public String getCategory() {
+    public String getGenre() {
         return genre;
     }
 
-    public void setCategory(String category) {
+    public void setGenre(String category) {
         this.genre = category;
     }
 
