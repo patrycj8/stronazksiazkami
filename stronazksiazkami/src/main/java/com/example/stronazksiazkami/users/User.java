@@ -19,6 +19,7 @@ public class User
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
+
     private Integer id;
     private String login;
     private String password;
@@ -188,6 +189,7 @@ public class User
 
     public LocalDate getCreatedDate() {
         return createdDate;}
+
 
     @Override
     public String toString()

@@ -3,6 +3,7 @@ package com.example.stronazksiazkami.users;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+//;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,9 +31,10 @@ public class UserServiceImpl {
         if (usersOptional.isPresent()) {
             throw new IllegalArgumentException("email exists");
         }
-        //String encryptedPassword = passwordEncoder.encode(users.getPassword());
-        //users.setPassword(encryptedPassword);
-        User user = usersRepository.save(users);
+       /* String encryptedPassword = passwordEncoder.encode(users.getPassword());
+        users.setPassword(encryptedPassword);
+        users.setPassword(encryptedPassword);*/
+        User savedUser = usersRepository.save(users);
         return usersRepository.save(users);
     }
 
