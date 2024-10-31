@@ -25,12 +25,8 @@ public class UserController
     }
 
     @PostMapping
-    public ResponseEntity<User> registerNewUsers(@RequestBody User users/*, @AuthenticationPrincipal UserDetails userDetails*/)
-    {   //poczatek
-        /*if (!usersService.isAdmin(userDetails.getUsername()))
-        {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }//koniec*/
+    public ResponseEntity<User> registerNewUsers(@RequestBody User users)
+    {
         User savedUser = usersService.addNewUsers(users);
         return ResponseEntity.ok(savedUser);
     }
