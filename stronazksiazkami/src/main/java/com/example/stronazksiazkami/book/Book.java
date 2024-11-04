@@ -1,8 +1,12 @@
 package com.example.stronazksiazkami.book;
 
+import com.example.stronazksiazkami.author.Author;
+import com.example.stronazksiazkami.publisher.Publisher;
+import com.example.stronazksiazkami.users.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table
@@ -26,6 +30,22 @@ public class Book {
     private Integer rate;
     private Integer pages;
     private LocalDate firstPublication;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    private Author author;
+
+    @ManyToOne
+    @JoinColumn(name = "publisher_id", referencedColumnName = "id")
+    private Publisher publisher;
+
+    @ManyToMany
+    @JoinTable(
+            name = "book_user",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> users;
 
     public Book()
     {

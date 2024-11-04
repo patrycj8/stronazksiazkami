@@ -1,9 +1,11 @@
 package com.example.stronazksiazkami.users;
 
 
+import com.example.stronazksiazkami.book.Book;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -30,6 +32,9 @@ public class User
     private String email;
     private String address;
     private Integer age;
+
+    @ManyToMany(mappedBy = "users")
+    private Set<Book> books;
 
     @Column
     private LocalDate createdDate;

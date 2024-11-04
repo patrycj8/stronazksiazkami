@@ -1,8 +1,10 @@
 package com.example.stronazksiazkami.author;
 
+import com.example.stronazksiazkami.book.Book;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table
@@ -25,6 +27,10 @@ public class Author {
     private LocalDate born;
     private Integer age;
     private boolean isDeleted = false;
+
+    @OneToMany(mappedBy = "author")
+    private List<Book> books;
+
 
     public Author()
     {

@@ -1,6 +1,9 @@
 package com.example.stronazksiazkami.publisher;
 
+import com.example.stronazksiazkami.book.Book;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "publishers")
@@ -21,6 +24,9 @@ public class Publisher {
     private String address;
     private String email;
     private String website;
+
+    @OneToMany(mappedBy = "publisher")
+    private List<Book> books;
 
     public Publisher()
     {
