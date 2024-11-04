@@ -55,15 +55,9 @@ public class PublisherServiceImpl {
             }
             publisher.setPhone(updatedPublisher.getPhone());
         }
-        if (updatedPublisher.getEmail() != null) {
-            publisher.setEmail(updatedPublisher.getEmail());
-        }
-        if (updatedPublisher.getAddress() != null) {
-            publisher.setAddress(updatedPublisher.getAddress());
-        }
-        if (updatedPublisher.getWebsite() != null) {
-            publisher.setWebsite(updatedPublisher.getWebsite());
-        }
+        if (updatedPublisher.getEmail() != null) {publisher.setEmail(updatedPublisher.getEmail());}
+        if (updatedPublisher.getAddress() != null) {publisher.setAddress(updatedPublisher.getAddress());}
+        if (updatedPublisher.getWebsite() != null) {publisher.setWebsite(updatedPublisher.getWebsite());}
 
         publishersRepository.save(publisher);
     }

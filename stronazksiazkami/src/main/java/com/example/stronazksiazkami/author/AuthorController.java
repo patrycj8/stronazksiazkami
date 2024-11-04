@@ -10,34 +10,34 @@ import java.util.List;
 @RequestMapping(path = "api/v1/authors")
 public class AuthorController {
 
-    private final AuthorService authorsService;
+    private final AuthorService authorService;
 
     @Autowired
-    public AuthorController(AuthorService authorsService) {
-        this.authorsService = authorsService;
+    public AuthorController(AuthorService authorService) {
+        this.authorService = authorService;
     }
 
     @GetMapping
     public List<Author> getAuthors() {
-        return authorsService.getAuthors();
+        return authorService.getAuthors();
     }
 
     @PostMapping
-    public ResponseEntity<Author> registerNewAuthors(@RequestBody Author authors)
-    {
-        Author savedAuthor = authorsService.addNewAuthors(authors);
+    public ResponseEntity<Author> registerNewAuthor(@RequestBody Author author) {
+        Author savedAuthor = authorService.addNewAuthor(author);
         return ResponseEntity.ok(savedAuthor);
     }
 
-    @DeleteMapping(path = "/delete/{authorsId}")
-    public void deleteAuthors(@PathVariable("authorsId") Integer authorsId) {
-        authorsService.deleteAuthorsPermanently(authorsId);
+    @DeleteMapping(path = "/delete/{authorId}")
+    public ResponseEntity<Void> deleteAuthor(@PathVariable("authorId") Integer authorId) {
+        authorService.deleteAuthor(authorId);
+        return ResponseEntity.noContent().build();
     }
 
-    @PutMapping(path = "/{authorsId}")
-    public void updateAuthors(@PathVariable("authorsId") Integer authorsId,
-                              @RequestParam(required = false) String name,
-                              @RequestParam(required = false) String surname) {
-        authorsService.updateAuthorsPermanently(authorsId, name, surname);
+    @PutMapping(path = "/{authorId}")
+    public ResponseEntity<Author> updateAuthor(@PathVariable("authorId") Integer authorId,
+                                               @RequestBody Author updateAuthor) {
+        Author updatedAuthor = authorService.updateAuthor(authorId, updateAuthor);
+        return ResponseEntity.ok(updatedAuthor);
     }
 }

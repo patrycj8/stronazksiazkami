@@ -9,9 +9,9 @@ import java.util.Optional;
 @Repository
 public interface PublisherRepository extends JpaRepository<Publisher, Integer>
 {
-    @Query("SELECT s FROM Publisher s WHERE s.name = ?1")
+   // @Query("SELECT s FROM Publisher s WHERE s.name = ?1")
     Optional<Publisher> findPublishersByName(String name);
 
-    @Query("SELECT s FROM Publisher s WHERE s.phone =?1")
+    //@Query("SELECT s FROM Publisher s WHERE s.phone =?1")
     Optional<Publisher> findPublishersByPhone(String phone);
 }

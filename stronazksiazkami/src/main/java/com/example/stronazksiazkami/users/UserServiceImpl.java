@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -18,42 +17,48 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    @Override
     public List<User> getUsers() {
         return userRepository.findAll();
     }
 
-    public User addNewUsers(User user) {
+    @Override
+    public User addNewUser(User user) {
         Optional<User> userOptional = userRepository.findUsersByEmail(user.getEmail());
         if (userOptional.isPresent()) {
             throw new IllegalArgumentException("email exists");
         }
         String encryptedPassword = simpleEncryptPassword(user.getPassword());
         user.setPassword(encryptedPassword);
-        //User savedUser = userRepository.save(user);
         return userRepository.save(user);
     }
 
-    public void deleteUsers(Integer userId) {
+    @Override
+    public void deleteUser(Integer userId) {
         if (!userRepository.existsById(userId)) {
             throw new IllegalArgumentException("user with id " + userId + " does not exist");
         }
         userRepository.deleteById(userId);
     }
 
+    @Override
     @Transactional
-    public void updateUsers(Integer userId, String name, String email) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("user with id " + userId + " does not exist"));
-        if (name != null && !name.isEmpty() && !Objects.equals(user.getName(), name)) {
-            user.setName(name);
-        }
-        if (email != null && !email.isEmpty() && !Objects.equals(user.getEmail(), email)) {
-            if (userRepository.findUsersByEmail(email).isPresent()) {
-                throw new IllegalArgumentException("email exists");
-            }
-            user.setEmail(email);
-        }
+    public User updateUser(Integer userId, User updateUser) {
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User with id " + userId + " does not exist"));
+
+        if (updateUser.getLogin() != null) {existingUser.setLogin(updateUser.getLogin());}
+        if (updateUser.getPassword() != null) {existingUser.setPassword(updateUser.getPassword());}
+        if (updateUser.getName() != null) {existingUser.setName(updateUser.getName());}
+        if (updateUser.getSurname() != null) {existingUser.setSurname(updateUser.getSurname());}
+        if (updateUser.getPhone() != null) {existingUser.setPhone(updateUser.getPhone());}
+        if (updateUser.getEmail() != null) {existingUser.setEmail(updateUser.getEmail());}
+        if (updateUser.getAddress() != null) {existingUser.setAddress(updateUser.getAddress());}
+        if (updateUser.getAge() != null) {existingUser.setAge(updateUser.getAge());}
+
+        return userRepository.save(existingUser);
     }
+
     private String simpleEncryptPassword(String password) {
         StringBuilder encrypted = new StringBuilder();
         int shift = 5;

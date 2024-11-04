@@ -24,19 +24,19 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> registerNewUser(@RequestBody User user) {
-        User savedUser = usersService.addNewUsers(user);
+        User savedUser = usersService.addNewUser(user);
         return ResponseEntity.ok(savedUser);
     }
 
     @DeleteMapping(path = "{userId}")
     public void deleteUser(@PathVariable("userId") Integer userId) {
-        usersService.deleteUsers(userId);
+        usersService.deleteUser(userId);
     }
 
     @PutMapping(path = "/{userId}")
-    public void updateUser(@PathVariable("userId") Integer userId,
-                           @RequestParam(required = false) String name,
-                           @RequestParam(required = false) String email) {
-        usersService.updateUsers(userId, name, email);
+    public ResponseEntity<User> updateUser(@PathVariable("userId") Integer userId,
+                                           @RequestBody User updateUser) {
+        User updatedUser = usersService.updateUser(userId, updateUser);
+        return ResponseEntity.ok(updatedUser);
     }
 }

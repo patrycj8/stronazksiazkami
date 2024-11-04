@@ -6,7 +6,7 @@ public interface UserService
 {
     List<User> getUsers();
 
-    User addNewUsers(User user);
-    void deleteUsers(Integer userId);
-    void updateUsers(Integer userId, String name, String email);
+    User addNewUser(User user);
+    void deleteUser(Integer userId);
+    User updateUser(Integer userId, User updateUser);
 }

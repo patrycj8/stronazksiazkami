@@ -43,30 +43,14 @@ public class BookServiceImpl implements BookService {
         Book existingBook = booksRepository.findById(booksId)
                 .orElseThrow(() -> new IllegalArgumentException("Book with id " + booksId + " does not exist"));
 
-        if (updatedBook.getTitle() != null) {
-            existingBook.setTitle(updatedBook.getTitle());
-        }
-        if (updatedBook.getIsbn() != null) {
-            existingBook.setIsbn(updatedBook.getIsbn());
-        }
-        if (updatedBook.getPrice() != null) {
-            existingBook.setPrice(updatedBook.getPrice());
-        }
-        if (updatedBook.getLanguage() != null) {
-            existingBook.setLanguage(updatedBook.getLanguage());
-        }
-        if (updatedBook.getGenre() != null) {
-            existingBook.setGenre(updatedBook.getGenre());
-        }
-        if (updatedBook.getPages() != null) {
-            existingBook.setPages(updatedBook.getPages());
-        }
-        if (updatedBook.getRate() != null) {
-            existingBook.setRate(updatedBook.getRate());
-        }
-        if (updatedBook.getFirstPublication() != null) {
-            existingBook.setFirstPublication(updatedBook.getFirstPublication());
-        }
+        if (updatedBook.getTitle() != null) {existingBook.setTitle(updatedBook.getTitle());}
+        if (updatedBook.getIsbn() != null) {existingBook.setIsbn(updatedBook.getIsbn());}
+        if (updatedBook.getPrice() != null) {existingBook.setPrice(updatedBook.getPrice());}
+        if (updatedBook.getLanguage() != null) {existingBook.setLanguage(updatedBook.getLanguage());}
+        if (updatedBook.getGenre() != null) {existingBook.setGenre(updatedBook.getGenre());}
+        if (updatedBook.getPages() != null) {existingBook.setPages(updatedBook.getPages());}
+        if (updatedBook.getRate() != null) {existingBook.setRate(updatedBook.getRate());}
+        if (updatedBook.getFirstPublication() != null) {existingBook.setFirstPublication(updatedBook.getFirstPublication());}
 
         return booksRepository.save(existingBook);
     }
