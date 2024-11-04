@@ -2,6 +2,9 @@ package com.example.stronazksiazkami.author;
 
 import com.example.stronazksiazkami.book.Book;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,13 +22,28 @@ public class Author {
             strategy = GenerationType.SEQUENCE,
             generator = "authors_sequence"
     )
+    @Getter @Setter @NotNull
     private int id;
+
+    @Getter @Setter @NotNull
     private String name;
+
+    @Getter @Setter @NotNull
     private String surname;
+
+    @Getter @Setter @NotNull
     private String country;
+
+    @Getter @Setter @NotNull
     private Integer bookCount;
+
+    @Getter @Setter @NotNull
     private LocalDate born;
+
+    @Getter @Setter @NotNull
     private Integer age;
+
+    @Getter @Setter @NotNull
     private boolean isDeleted = false;
 
     @OneToMany(mappedBy = "author")

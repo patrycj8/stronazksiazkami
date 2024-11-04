@@ -2,6 +2,9 @@ package com.example.stronazksiazkami.publisher;
 
 import com.example.stronazksiazkami.book.Book;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.List;
 
@@ -18,11 +21,22 @@ public class Publisher {
             strategy = GenerationType.SEQUENCE,
             generator = "publishers_sequence"
     )
+    @Getter @Setter @NotNull
     private int id;
+
+    @Getter @Setter @NotNull
     private String name;
+
+    @Getter @Setter @NotNull
     private String phone;
+
+    @Getter @Setter @NotNull
     private String address;
+
+    @Getter @Setter @NotNull
     private String email;
+
+    @Getter @Setter @NotNull
     private String website;
 
     @OneToMany(mappedBy = "publisher")
@@ -30,81 +44,6 @@ public class Publisher {
 
     public Publisher()
     {
-    }
-
-    public Publisher(int id,
-                     String name,
-                     String phone,
-                     String address,
-                     String email,
-                     String website)
-    {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.address = address;
-        this.email = email;
-        this.website = website;
-    }
-
-    public Publisher(String website,
-                     String email,
-                     String address,
-                     String phone,
-                     String name) {
-        this.website = website;
-        this.email = email;
-        this.address = address;
-        this.phone = phone;
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
     }
 
     @Override

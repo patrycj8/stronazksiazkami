@@ -4,6 +4,9 @@ import com.example.stronazksiazkami.author.Author;
 import com.example.stronazksiazkami.publisher.Publisher;
 import com.example.stronazksiazkami.users.User;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -21,14 +24,31 @@ public class Book {
             strategy = GenerationType.SEQUENCE,
             generator = "books_sequence"
     )
+    @Getter @Setter @NotNull
     private int id;
+
+    @Getter @Setter @NotNull
     private String title;
+
+    @Getter @Setter @NotNull
     private String isbn;
+
+    @Getter @Setter @NotNull
     private Double price;
+
+    @Getter @Setter @NotNull
     private String language;
+
+    @Getter @Setter @NotNull
     private String genre;
+
+    @Getter @Setter @NotNull
     private Integer rate;
+
+    @Getter @Setter @NotNull
     private Integer pages;
+
+    @Getter @Setter @NotNull
     private LocalDate firstPublication;
 
     @ManyToOne
@@ -49,117 +69,6 @@ public class Book {
 
     public Book()
     {
-    }
-
-    public Book(int id,
-                String title,
-                String isbn,
-                Double price,
-                String language,
-                String genre,
-                Integer rate,
-                Integer pages,
-                LocalDate firstPublication)
-    {
-        this.id = id;
-        this.title = title;
-        this.isbn = isbn;
-        this.price = price;
-        this.language = language;
-        this.genre = genre;
-        this.rate = rate;
-        this.pages = pages;
-        this.firstPublication = firstPublication;
-    }
-
-    public Book(LocalDate firstPublication,
-                Integer pages,
-                Integer rate,
-                String category,
-                String language,
-                Double price,
-                String isbn,
-                String title) {
-        this.firstPublication = firstPublication;
-        this.pages = pages;
-        this.rate = rate;
-        this.genre = category;
-        this.language = language;
-        this.price = price;
-        this.isbn = isbn;
-        this.title = title;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String category) {
-        this.genre = category;
-    }
-
-    public Integer getRate() {
-        return rate;
-    }
-
-    public void setRate(Integer rate) {
-        this.rate = rate;
-    }
-
-    public Integer getPages() {
-        return pages;
-    }
-
-    public void setPages(Integer pages) {
-        this.pages = pages;
-    }
-
-    public LocalDate getFirstPublication() {
-        return firstPublication;
-    }
-
-    public void setFirstPublication(LocalDate firstPublication) {
-        this.firstPublication = firstPublication;
     }
 
     @Override

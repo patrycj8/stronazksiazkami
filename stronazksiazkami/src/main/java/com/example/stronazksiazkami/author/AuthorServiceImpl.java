@@ -45,12 +45,12 @@ public class AuthorServiceImpl implements AuthorService {
         Author existingAuthor = authorRepository.findById(authorId)
                 .orElseThrow(() -> new IllegalArgumentException("Author with id " + authorId + " does not exist"));
 
-        if (updateAuthor.getName() != null) existingAuthor.setName(updateAuthor.getName());
-        if (updateAuthor.getSurname() != null) existingAuthor.setSurname(updateAuthor.getSurname());
-        if (updateAuthor.getCountry() != null) existingAuthor.setCountry(updateAuthor.getCountry());
-        if (updateAuthor.getBookCount() != null) existingAuthor.setBookCount(updateAuthor.getBookCount());
-        if (updateAuthor.getBorn() != null) existingAuthor.setBorn(updateAuthor.getBorn());
-        if (updateAuthor.getAge() != null) existingAuthor.setAge(updateAuthor.getAge());
+        existingAuthor.setName(updateAuthor.getName());
+        existingAuthor.setSurname(updateAuthor.getSurname());
+        existingAuthor.setCountry(updateAuthor.getCountry());
+        existingAuthor.setBookCount(updateAuthor.getBookCount());
+        existingAuthor.setBorn(updateAuthor.getBorn());
+        existingAuthor.setAge(updateAuthor.getAge());
 
         return authorRepository.save(existingAuthor);
     }
