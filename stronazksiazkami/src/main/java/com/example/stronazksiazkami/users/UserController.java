@@ -8,9 +8,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/users")
+public class UserController {
 
-public class UserController
-{
     private final UserServiceImpl usersService;
 
     @Autowired
@@ -19,28 +18,25 @@ public class UserController
     }
 
     @GetMapping
-    public List<User> getUsers()
-    {
+    public List<User> getUsers() {
         return usersService.getUsers();
     }
 
     @PostMapping
-    public ResponseEntity<User> registerNewUsers(@RequestBody User users)
-    {
-        User savedUser = usersService.addNewUsers(users);
+    public ResponseEntity<User> registerNewUser(@RequestBody User user) {
+        User savedUser = usersService.addNewUsers(user);
         return ResponseEntity.ok(savedUser);
     }
 
-    @DeleteMapping(path = "{usersId}")
-    public void deleteUsers(@PathVariable("usersId") Integer usersId)
-    {
-        usersService.deleteUsers(usersId);
+    @DeleteMapping(path = "{userId}")
+    public void deleteUser(@PathVariable("userId") Integer userId) {
+        usersService.deleteUsers(userId);
     }
 
-    @PutMapping(path = "/{usersId}")
-    public void updateAuthors(@PathVariable("usersId") Integer usersId,
-                              @RequestParam(required = false) String name,
-                              @RequestParam(required = false) String email) {
-        usersService.updateUsers(usersId, name, email);
+    @PutMapping(path = "/{userId}")
+    public void updateUser(@PathVariable("userId") Integer userId,
+                           @RequestParam(required = false) String name,
+                           @RequestParam(required = false) String email) {
+        usersService.updateUsers(userId, name, email);
     }
 }
