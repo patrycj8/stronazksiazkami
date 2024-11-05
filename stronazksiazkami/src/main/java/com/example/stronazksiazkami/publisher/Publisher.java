@@ -8,6 +8,8 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "publishers")
 public class Publisher {
@@ -21,22 +23,22 @@ public class Publisher {
             strategy = GenerationType.SEQUENCE,
             generator = "publishers_sequence"
     )
-    @Getter @Setter @NotNull
+    @NotNull
     private int id;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private String name;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private String phone;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private String address;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private String email;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private String website;
 
     @OneToMany(mappedBy = "publisher")

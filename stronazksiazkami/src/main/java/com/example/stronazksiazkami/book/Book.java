@@ -11,6 +11,8 @@ import org.antlr.v4.runtime.misc.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table
 public class Book {
@@ -24,31 +26,31 @@ public class Book {
             strategy = GenerationType.SEQUENCE,
             generator = "books_sequence"
     )
-    @Getter @Setter @NotNull
+    @NotNull
     private int id;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private String title;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private String isbn;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private Double price;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private String language;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private String genre;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private Integer rate;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private Integer pages;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private LocalDate firstPublication;
 
     @ManyToOne

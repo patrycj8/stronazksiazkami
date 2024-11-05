@@ -9,6 +9,8 @@ import org.antlr.v4.runtime.misc.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table
 public class Author {
@@ -22,28 +24,28 @@ public class Author {
             strategy = GenerationType.SEQUENCE,
             generator = "authors_sequence"
     )
-    @Getter @Setter @NotNull
+    @NotNull
     private int id;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private String name;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private String surname;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private String country;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private Integer bookCount;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private LocalDate born;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private Integer age;
 
-    @Getter @Setter @NotNull
+    @NotNull
     private boolean isDeleted = false;
 
     @OneToMany(mappedBy = "author")
