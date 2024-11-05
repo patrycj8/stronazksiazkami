@@ -23,8 +23,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> registerNewUser(@RequestBody User user) {
-        User savedUser = usersService.addNewUser(user);
+    public ResponseEntity<User> registerNewUser(@RequestBody User user, @RequestParam String loggedInUserEmail)
+    {
+        User savedUser = usersService.addNewUser(user, loggedInUserEmail);
         return ResponseEntity.ok(savedUser);
     }
 
@@ -33,10 +34,12 @@ public class UserController {
         usersService.deleteUser(userId);
     }
 
+    //poprawic
     @PutMapping(path = "/{userId}")
     public ResponseEntity<User> updateUser(@PathVariable("userId") Integer userId,
-                                           @RequestBody User updateUser) {
-        User updatedUser = usersService.updateUser(userId, updateUser);
+                                           @RequestBody User updateUser,
+                                           @RequestParam String loggedInUserEmail) {
+        User updatedUser = usersService.updateUser(userId, updateUser, loggedInUserEmail);
         return ResponseEntity.ok(updatedUser);
     }
 }

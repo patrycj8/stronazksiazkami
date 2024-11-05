@@ -22,14 +22,25 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    public boolean isAdmin(String userEmail) {
+        Optional<User> userOptional = userRepository.findUsersByEmail(userEmail);
+        boolean isAdmin = userOptional.map(User::isAdmin).orElse(false);
+        System.out.println("Checking if user is admin: " + userEmail + " - isAdmin: " + isAdmin);
+        return isAdmin;
+    }
+
     @Override
-    public User addNewUser(User user) {
+    public User addNewUser(User user, String loggedInUserEmail) {
+        if (!isAdmin(loggedInUserEmail)) {
+            throw new SecurityException("Only admin users can add new users");
+        }
         Optional<User> userOptional = userRepository.findUsersByEmail(user.getEmail());
         if (userOptional.isPresent()) {
             throw new IllegalArgumentException("email exists");
         }
         String encryptedPassword = simpleEncryptPassword(user.getPassword());
         user.setPassword(encryptedPassword);
+
         return userRepository.save(user);
     }
 
@@ -41,9 +52,14 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(userId);
     }
 
+    //poprawic
     @Override
     @Transactional
-    public User updateUser(Integer userId, User updateUser) {
+    public User updateUser(Integer userId, User updateUser, String loggedInUserEmail)
+    {
+        if (!isAdmin(loggedInUserEmail)) {
+            throw new SecurityException("Only admin users can update user");
+        }
         User existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User with id " + userId + " does not exist"));
 
@@ -53,7 +69,8 @@ public class UserServiceImpl implements UserService {
         existingUser.setSurname(updateUser.getSurname());
         existingUser.setPhone(updateUser.getPhone());
         existingUser.setEmail(updateUser.getEmail());
-        existingUser.setAddress(updateUser.getAddress());existingUser.setAge(updateUser.getAge());
+        existingUser.setAddress(updateUser.getAddress());
+        existingUser.setAge(updateUser.getAge());
 
         return userRepository.save(existingUser);
     }
