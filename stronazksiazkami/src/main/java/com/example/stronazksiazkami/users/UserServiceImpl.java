@@ -45,14 +45,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Integer userId) {
+    public void deleteUser(Integer userId,String loggedInUserEmail) {
+        if(!isAdmin(loggedInUserEmail)) {
+            throw new SecurityException("Only admin users can delete users");
+        }
         if (!userRepository.existsById(userId)) {
             throw new IllegalArgumentException("user with id " + userId + " does not exist");
         }
         userRepository.deleteById(userId);
     }
 
-    //poprawic
     @Override
     @Transactional
     public User updateUser(Integer userId, User updateUser, String loggedInUserEmail)
@@ -62,16 +64,30 @@ public class UserServiceImpl implements UserService {
         }
         User existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User with id " + userId + " does not exist"));
-
-        existingUser.setLogin(updateUser.getLogin());
-        existingUser.setPassword(updateUser.getPassword());
-        existingUser.setName(updateUser.getName());
-        existingUser.setSurname(updateUser.getSurname());
-        existingUser.setPhone(updateUser.getPhone());
-        existingUser.setEmail(updateUser.getEmail());
-        existingUser.setAddress(updateUser.getAddress());
-        existingUser.setAge(updateUser.getAge());
-
+        if (updateUser.getLogin() != null) {
+            existingUser.setLogin(updateUser.getLogin());
+        }
+        if (updateUser.getPassword() != null) {
+            existingUser.setPassword(updateUser.getPassword());
+        }
+        if (updateUser.getName() != null) {
+            existingUser.setName(updateUser.getName());
+        }
+        if (updateUser.getSurname() != null) {
+            existingUser.setSurname(updateUser.getSurname());
+        }
+        if (updateUser.getPhone() != null) {
+            existingUser.setPhone(updateUser.getPhone());
+        }
+        if (updateUser.getEmail() != null) {
+            existingUser.setEmail(updateUser.getEmail());
+        }
+        if (updateUser.getAddress() != null) {
+            existingUser.setAddress(updateUser.getAddress());
+        }
+        if (updateUser.getAge() != null) {
+            existingUser.setAge(updateUser.getAge());
+        }
         return userRepository.save(existingUser);
     }
 

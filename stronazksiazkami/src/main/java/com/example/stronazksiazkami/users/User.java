@@ -9,6 +9,8 @@ import org.antlr.v4.runtime.misc.NotNull;
 import java.time.LocalDate;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class User
@@ -23,34 +25,16 @@ public class User
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
-    @Getter @Setter @NotNull
+
     private Integer id;
-
-    @Getter @Setter @NotNull
     private String login;
-
-    @Getter @Setter @NotNull
     private String password;
-
-    @Getter @Setter @NotNull
     private boolean isAdmin;
-
-    @Getter @Setter @NotNull
     private String name;
-
-    @Getter @Setter @NotNull
     private String surname;
-
-    @Getter @Setter @NotNull
     private String phone;
-
-    @Getter @Setter @NotNull
     private String email;
-
-    @Getter @Setter @NotNull
     private String address;
-
-    @Getter @Setter @NotNull
     private Integer age;
 
     @ManyToMany(mappedBy = "users")

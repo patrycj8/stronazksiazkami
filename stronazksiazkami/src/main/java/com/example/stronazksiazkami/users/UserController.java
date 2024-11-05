@@ -29,9 +29,10 @@ public class UserController {
         return ResponseEntity.ok(savedUser);
     }
 
+    //isAdmin
     @DeleteMapping(path = "{userId}")
-    public void deleteUser(@PathVariable("userId") Integer userId) {
-        usersService.deleteUser(userId);
+    public void deleteUser(@PathVariable("userId") Integer userId, @RequestParam String loggedInUserEmail) {
+        usersService.deleteUser(userId, loggedInUserEmail);
     }
 
     //poprawic
