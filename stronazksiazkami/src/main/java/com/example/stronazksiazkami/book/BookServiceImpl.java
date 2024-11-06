@@ -29,15 +29,24 @@ public class BookServiceImpl implements BookService {
         return savedBook;
     }
 
+    //fizyczny dla admina
     public void deleteBooks(Integer booksId) {
-        boolean exists = booksRepository.existsById(booksId);
-        if (!exists)
+        if (!booksRepository.existsById(booksId))
         {
             throw new IllegalArgumentException("books with id " + booksId + " does not exist");
-
         }
         booksRepository.deleteById(booksId);
     }
+
+    //logivzny delete dla usera
+    @Transactional
+    public void deleteBookLogically(Integer booksId) {
+        Book book = booksRepository.findById(booksId).orElseThrow(() -> new IllegalArgumentException("books with id " + booksId + " does not exist"));
+        booksRepository.delete(book);
+        booksRepository.save(book);
+    }
+
+
     @Transactional
     public Book updateBooks(Integer booksId, Book updatedBook) {
         Book existingBook = booksRepository.findById(booksId)

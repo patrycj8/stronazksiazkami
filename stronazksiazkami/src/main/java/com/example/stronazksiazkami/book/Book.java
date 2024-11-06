@@ -53,6 +53,9 @@ public class Book {
     @NotNull
     private LocalDate firstPublication;
 
+    @NotNull
+    private Boolean deleted = false;
+
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private Author author;

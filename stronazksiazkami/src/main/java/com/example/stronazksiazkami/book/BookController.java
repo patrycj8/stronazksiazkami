@@ -28,11 +28,19 @@ public class BookController {
         Book savedBook = booksService.addNewBooks(books);
         return ResponseEntity.ok(savedBook);
     }
-
-    @DeleteMapping(path = "{booksId}")
+    // fizyczny
+    @DeleteMapping(path = "delete/{booksId}")
     public void deleteBooks(@PathVariable("booksId") Integer booksId)
     {
         booksService.deleteBooks(booksId);
+    }
+
+    //logiczny
+    @PutMapping(path = "/deleteLogically/{bookId}")
+    public ResponseEntity<Void> deleteBookLogically(@PathVariable("bookId") Integer bookId)
+    {
+        booksService.deleteBookLogically(bookId);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "/{booksId}")

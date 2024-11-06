@@ -11,4 +11,5 @@ public interface AuthorService
     Author addNewAuthor(Author author);
     void deleteAuthor(Integer authorId);
     Author updateAuthor(Integer authorId, Author updateAuthor);
+    void deleteAuthorLogically(Integer authorId);
 }
