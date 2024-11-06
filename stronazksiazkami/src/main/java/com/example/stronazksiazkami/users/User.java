@@ -29,7 +29,6 @@ public class User
     private Integer id;
     private String login;
     private String password;
-    private boolean isAdmin;
     private String name;
     private String surname;
     private String phone;
@@ -43,6 +42,8 @@ public class User
 
     @Column
     private LocalDate createdDate;
+    private Boolean isAdmin = false;
+    private Boolean deleted = false;
 
     public User()
     {

@@ -19,12 +19,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsers() {
-        return userRepository.findAll();
+        return userRepository.findAllActiveUsers();
     }
 
     public boolean isAdmin(String userEmail) {
         Optional<User> userOptional = userRepository.findUsersByEmail(userEmail);
-        boolean isAdmin = userOptional.map(User::isAdmin).orElse(false);
+        Boolean isAdmin = userOptional.map(User::getIsAdmin).orElse(false);
         System.out.println("Checking if user is admin: " + userEmail + " - isAdmin: " + isAdmin);
         return isAdmin;
     }
@@ -49,10 +49,18 @@ public class UserServiceImpl implements UserService {
         if(!isAdmin(loggedInUserEmail)) {
             throw new SecurityException("Only admin users can delete users");
         }
-        if (!userRepository.existsById(userId)) {
-            throw new IllegalArgumentException("user with id " + userId + " does not exist");
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("user not found"));
+        user.setDeleted(true);
+        userRepository.save(user);
+    }
+    public void restoreUser(Integer userId,String loggedInUserEmail) {
+        if(!isAdmin(loggedInUserEmail)) {
+            throw new SecurityException("Only admin users can restore users");
         }
-        userRepository.deleteById(userId);
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("user not found"));
+        user.setDeleted(false);
+        userRepository.save(user);
     }
 
     @Override

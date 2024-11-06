@@ -21,7 +21,7 @@ public class UserController {
     public List<User> getUsers() {
         return usersService.getUsers();
     }
-
+    //Add - dziala
     @PostMapping
     public ResponseEntity<User> registerNewUser(@RequestBody User user, @RequestParam String loggedInUserEmail)
     {
@@ -29,13 +29,20 @@ public class UserController {
         return ResponseEntity.ok(savedUser);
     }
 
-    //isAdmin
+    //isAdmin - zmienia wartosc
     @DeleteMapping(path = "{userId}")
     public void deleteUser(@PathVariable("userId") Integer userId, @RequestParam String loggedInUserEmail) {
         usersService.deleteUser(userId, loggedInUserEmail);
     }
 
-    //poprawic
+    //dziala zmienia wartosc na true
+    @PutMapping(path = "/restore/{userId}")
+    public ResponseEntity<Void> restoreUser(@PathVariable("userId") Integer userId, @RequestParam String loggedInUserEmail) {
+        usersService.restoreUser(userId, loggedInUserEmail);
+        return ResponseEntity.ok().build();
+    }
+
+    //Update - dziala
     @PutMapping(path = "/{userId}")
     public ResponseEntity<User> updateUser(@PathVariable("userId") Integer userId,
                                            @RequestBody User updateUser,
