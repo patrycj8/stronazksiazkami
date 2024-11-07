@@ -1,6 +1,7 @@
 package com.example.stronazksiazkami.users;
 
 import com.example.stronazksiazkami.book.Book;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,8 +14,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "users")
-public class User
-{
+public class User {
     @Id
     @SequenceGenerator(
             name = "user_sequence",
@@ -38,6 +38,7 @@ public class User
 
 
     @ManyToMany(mappedBy = "users")
+    @JsonBackReference
     private Set<Book> books;
 
     @Column
@@ -45,14 +46,12 @@ public class User
     private Boolean isAdmin = false;
     private Boolean deleted = false;
 
-    public User()
-    {
+    public User() {
 
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Users{" +
                 "id=" + id +
                 ", login='" + login + '\'' +

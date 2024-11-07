@@ -3,6 +3,7 @@ package com.example.stronazksiazkami.book;
 import com.example.stronazksiazkami.author.Author;
 import com.example.stronazksiazkami.publisher.Publisher;
 import com.example.stronazksiazkami.users.User;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -58,13 +59,16 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
+    @JsonManagedReference
     private Author author;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "publisher_id", referencedColumnName = "id")
     private Publisher publisher;
 
     @ManyToMany
+    @JsonManagedReference
     @JoinTable(
             name = "book_user",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -72,8 +76,7 @@ public class Book {
     )
     private Set<User> users;
 
-    public Book()
-    {
+    public Book() {
     }
 
     @Override
@@ -88,6 +91,7 @@ public class Book {
                 ", popularity=" + rate +
                 ", pages=" + pages +
                 ", firstPublication=" + firstPublication +
+                ", deleted=" + deleted +
                 '}';
     }
 }

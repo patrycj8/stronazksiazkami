@@ -35,8 +35,9 @@ public class AuthorController {
         authorService.deleteAuthor(authorId);
         return ResponseEntity.noContent().build();
     }
-    //Logiczne dla usera
-    @PutMapping(path ="/deleteLogically/{authorId}" )
+
+    //Logiczne dla usera - dziala
+    @PutMapping(path = "/deleteLogically/{authorId}")
     public ResponseEntity<Void> deleteAuthorLogically(@PathVariable("authorId") Integer authorId) {
         authorService.deleteAuthorLogically(authorId);
         return ResponseEntity.noContent().build();

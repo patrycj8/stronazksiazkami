@@ -17,28 +17,25 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> getBooks()
-    {
+    public List<Book> getBooks() {
         return booksService.getBooks();
     }
 
     @PostMapping
-    public ResponseEntity<Book> registerNewBooks(@RequestBody Book books)
-    {
+    public ResponseEntity<Book> registerNewBooks(@RequestBody Book books) {
         Book savedBook = booksService.addNewBooks(books);
         return ResponseEntity.ok(savedBook);
     }
-    // fizyczny
+
+    // fizyczny - dziala ale jak na admina
     @DeleteMapping(path = "delete/{booksId}")
-    public void deleteBooks(@PathVariable("booksId") Integer booksId)
-    {
+    public void deleteBooks(@PathVariable("booksId") Integer booksId) {
         booksService.deleteBooks(booksId);
     }
 
     //logiczny
-    @PutMapping(path = "/deleteLogically/{bookId}")
-    public ResponseEntity<Void> deleteBookLogically(@PathVariable("bookId") Integer bookId)
-    {
+    @DeleteMapping(path = "/deleteLogically/{bookId}")
+    public ResponseEntity<Void> deleteBookLogically(@PathVariable("bookId") Integer bookId) {
         booksService.deleteBookLogically(bookId);
         return ResponseEntity.noContent().build();
     }
