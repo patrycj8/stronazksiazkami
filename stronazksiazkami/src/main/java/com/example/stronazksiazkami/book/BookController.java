@@ -27,13 +27,11 @@ public class BookController {
         return ResponseEntity.ok(savedBook);
     }
 
-    // fizyczny - dziala ale jak na admina
     @DeleteMapping(path = "delete/{booksId}")
     public void deleteBooks(@PathVariable("booksId") Integer booksId) {
         booksService.deleteBooks(booksId);
     }
 
-    //logiczny
     @DeleteMapping(path = "/deleteLogically/{bookId}")
     public ResponseEntity<Void> deleteBookLogically(@PathVariable("bookId") Integer bookId) {
         booksService.deleteBookLogically(bookId);

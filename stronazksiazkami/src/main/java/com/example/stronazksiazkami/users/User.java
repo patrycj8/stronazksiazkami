@@ -4,7 +4,6 @@ import com.example.stronazksiazkami.book.Book;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -37,7 +36,6 @@ public class User {
 
 
     @ManyToMany(mappedBy = "users")
-    //@JsonBackReference
     private Set<Book> books;
 
     @Column

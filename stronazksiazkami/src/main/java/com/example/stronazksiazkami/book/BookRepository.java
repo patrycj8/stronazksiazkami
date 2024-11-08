@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
-    // @Query("SELECT s FROM Books s WHERE s.title =?1")
+
     Optional<Book> findBooksByIsbn(String isbn);
 
     List<Book> findAllByDeletedFalse();

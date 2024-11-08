@@ -30,7 +30,6 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     @Transactional
-    //fizyczny dla admina
     public void deleteAuthor(Integer authorId) {
         if (!authorRepository.existsById(authorId)) {
             throw new IllegalArgumentException("Author with id " + authorId + " does not exist");
@@ -38,7 +37,6 @@ public class AuthorServiceImpl implements AuthorService {
         authorRepository.deleteById(authorId);
     }
 
-    //logiczny dla usera
     @Transactional
     public void deleteAuthorLogically(Integer authorId) {
         Author author = authorRepository.findById(authorId).orElseThrow(() -> new IllegalArgumentException("Author with id " + authorId + " does not exist"));

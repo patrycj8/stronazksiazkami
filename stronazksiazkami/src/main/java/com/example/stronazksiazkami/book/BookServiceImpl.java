@@ -29,7 +29,6 @@ public class BookServiceImpl implements BookService {
         return savedBook;
     }
 
-    //fizyczny dla admina
     public void deleteBooks(Integer booksId) {
         if (!booksRepository.existsById(booksId)) {
             throw new IllegalArgumentException("books with id " + booksId + " does not exist");
@@ -37,7 +36,6 @@ public class BookServiceImpl implements BookService {
         booksRepository.deleteById(booksId);
     }
 
-    //logivzny delete dla usera
     @Transactional
     public void deleteBookLogically(Integer booksId) {
         Book book = booksRepository.findById(booksId).orElseThrow(() -> new IllegalArgumentException("books with id " + booksId + " does not exist"));

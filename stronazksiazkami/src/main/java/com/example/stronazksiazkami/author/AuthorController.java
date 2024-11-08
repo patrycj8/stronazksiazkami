@@ -29,14 +29,12 @@ public class AuthorController {
         return ResponseEntity.ok(savedAuthor);
     }
 
-    //fizyczne dla adminia
     @DeleteMapping(path = "/delete/{authorId}")
     public ResponseEntity<Void> deleteAuthor(@PathVariable("authorId") Integer authorId) {
         authorService.deleteAuthor(authorId);
         return ResponseEntity.noContent().build();
     }
 
-    //Logiczne dla usera - dziala
     @PutMapping(path = "/deleteLogically/{authorId}")
     public ResponseEntity<Void> deleteAuthorLogically(@PathVariable("authorId") Integer authorId) {
         authorService.deleteAuthorLogically(authorId);

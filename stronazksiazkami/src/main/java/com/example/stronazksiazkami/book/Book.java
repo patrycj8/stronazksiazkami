@@ -18,7 +18,6 @@ import java.util.Set;
 @Setter
 @Entity
 @Table
-//@JsonIgnoreProperties({"author", "users"})
 public class Book {
     @Id
     @SequenceGenerator(
