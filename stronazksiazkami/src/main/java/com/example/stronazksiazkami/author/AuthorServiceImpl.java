@@ -1,5 +1,7 @@
 package com.example.stronazksiazkami.author;
 
+import com.example.stronazksiazkami.users.User;
+import com.example.stronazksiazkami.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +13,12 @@ import java.util.Optional;
 @Service
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public AuthorServiceImpl(AuthorRepository authorRepository) {
+    public AuthorServiceImpl(AuthorRepository authorRepository, UserRepository userRepository) {
         this.authorRepository = authorRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -30,7 +34,10 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     @Transactional
-    public void deleteAuthor(Integer authorId) {
+    public void deleteAuthor(Integer authorId, String email) {
+        if (!isAdmin(email)) {
+            throw new IllegalArgumentException("You are not authorized to delete this author");
+        }
         if (!authorRepository.existsById(authorId)) {
             throw new IllegalArgumentException("Author with id " + authorId + " does not exist");
         }
@@ -59,5 +66,10 @@ public class AuthorServiceImpl implements AuthorService {
         existingAuthor.setAge(updateAuthor.getAge());
 
         return authorRepository.save(existingAuthor);
+    }
+
+    private boolean isAdmin(String email) {
+        Optional<User> user = userRepository.findUsersByEmail(email);
+        return user.isPresent() && user.get().getIsAdmin();
     }
 }

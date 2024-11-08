@@ -1,5 +1,7 @@
 package com.example.stronazksiazkami.book;
 
+import com.example.stronazksiazkami.users.User;
+import com.example.stronazksiazkami.users.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,10 +12,12 @@ import java.util.Optional;
 @Component
 public class BookServiceImpl implements BookService {
     private final BookRepository booksRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public BookServiceImpl(BookRepository booksReposiory) {
+    public BookServiceImpl(BookRepository booksReposiory, UserRepository userRepository) {
         this.booksRepository = booksReposiory;
+        this.userRepository = userRepository;
     }
 
     public List<Book> getBooks() {
@@ -29,7 +33,10 @@ public class BookServiceImpl implements BookService {
         return savedBook;
     }
 
-    public void deleteBooks(Integer booksId) {
+    public void deleteBooks(Integer booksId, String email) {
+        if (!isAdmin(email)) {
+            throw new IllegalArgumentException("you are not admin");
+        }
         if (!booksRepository.existsById(booksId)) {
             throw new IllegalArgumentException("books with id " + booksId + " does not exist");
         }
@@ -59,5 +66,10 @@ public class BookServiceImpl implements BookService {
         existingBook.setFirstPublication(updatedBook.getFirstPublication());
 
         return booksRepository.save(existingBook);
+    }
+
+    private boolean isAdmin(String email) {
+        Optional<User> user = userRepository.findUsersByEmail(email);
+        return user.isPresent() && user.get().getIsAdmin();
     }
 }

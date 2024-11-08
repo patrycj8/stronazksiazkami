@@ -5,11 +5,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public interface AuthorService
-{
+public interface AuthorService {
     List<Author> getAuthors();
+
     Author addNewAuthor(Author author);
-    void deleteAuthor(Integer authorId);
+
+    void deleteAuthor(Integer authorId, String email);
+
     Author updateAuthor(Integer authorId, Author updateAuthor);
+
     void deleteAuthorLogically(Integer authorId);
 }

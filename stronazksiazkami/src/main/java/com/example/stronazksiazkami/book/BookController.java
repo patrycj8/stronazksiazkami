@@ -28,8 +28,9 @@ public class BookController {
     }
 
     @DeleteMapping(path = "delete/{booksId}")
-    public void deleteBooks(@PathVariable("booksId") Integer booksId) {
-        booksService.deleteBooks(booksId);
+    public void deleteBooks(@PathVariable("booksId") Integer booksId,
+                            @RequestParam("email") String email) {
+        booksService.deleteBooks(booksId, email);
     }
 
     @DeleteMapping(path = "/deleteLogically/{bookId}")

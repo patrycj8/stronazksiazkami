@@ -30,8 +30,9 @@ public class AuthorController {
     }
 
     @DeleteMapping(path = "/delete/{authorId}")
-    public ResponseEntity<Void> deleteAuthor(@PathVariable("authorId") Integer authorId) {
-        authorService.deleteAuthor(authorId);
+    public ResponseEntity<Void> deleteAuthor(@PathVariable("authorId") Integer authorId,
+                                             @RequestParam("email") String email) {
+        authorService.deleteAuthor(authorId, email);
         return ResponseEntity.noContent().build();
     }
 
