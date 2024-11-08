@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -23,10 +24,6 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author addNewAuthor(Author author) {
-        Optional<Author> existingAuthor = authorRepository.findAuthorsBySurname(author.getSurname());
-        if (existingAuthor.isPresent()) {
-            throw new IllegalArgumentException("Surname exists");
-        }
         return authorRepository.save(author);
     }
 
