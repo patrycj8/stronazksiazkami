@@ -15,15 +15,15 @@ public class BookServiceImpl implements BookService {
     public BookServiceImpl(BookRepository booksReposiory) {
         this.booksRepository = booksReposiory;
     }
-    public List<Book> getBooks()
-    {
+
+    public List<Book> getBooks() {
         return booksRepository.findAll();
     }
 
     public Book addNewBooks(Book books) {
-        Optional<Book> booksOptional = booksRepository.findBooksByTitle(books.getTitle());
+        Optional<Book> booksOptional = booksRepository.findBooksByIsbn(books.getIsbn());
         if (booksOptional.isPresent()) {
-            throw new IllegalArgumentException("title exists");
+            throw new IllegalArgumentException("isbn exists");
         }
         Book savedBook = booksRepository.save(books);
         return savedBook;
@@ -31,8 +31,7 @@ public class BookServiceImpl implements BookService {
 
     //fizyczny dla admina
     public void deleteBooks(Integer booksId) {
-        if (!booksRepository.existsById(booksId))
-        {
+        if (!booksRepository.existsById(booksId)) {
             throw new IllegalArgumentException("books with id " + booksId + " does not exist");
         }
         booksRepository.deleteById(booksId);

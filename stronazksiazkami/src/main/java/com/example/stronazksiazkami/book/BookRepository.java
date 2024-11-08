@@ -7,12 +7,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-    @Repository
-    public interface BookRepository extends JpaRepository<Book, Integer>
-    {
-        // @Query("SELECT s FROM Books s WHERE s.title =?1")
-        Optional<Book> findBooksByTitle(String title);
+@Repository
+public interface BookRepository extends JpaRepository<Book, Integer> {
+    // @Query("SELECT s FROM Books s WHERE s.title =?1")
+    Optional<Book> findBooksByIsbn(String isbn);
 
-        List<Book> findAllByDeletedFalse();
-    }
+    List<Book> findAllByDeletedFalse();
+}
 
