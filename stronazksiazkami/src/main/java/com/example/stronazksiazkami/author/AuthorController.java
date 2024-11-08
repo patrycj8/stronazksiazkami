@@ -24,11 +24,11 @@ public class AuthorController {
 
     @PostMapping
     public ResponseEntity<Author> registerNewAuthor(@RequestBody Author author) {
+        System.out.println("Added author: " + author.getName() + " " + author.getSurname());
         Author savedAuthor = authorService.addNewAuthor(author);
         return ResponseEntity.ok(savedAuthor);
     }
 
-    //przetestowac oba
     //fizyczne dla adminia
     @DeleteMapping(path = "/delete/{authorId}")
     public ResponseEntity<Void> deleteAuthor(@PathVariable("authorId") Integer authorId) {

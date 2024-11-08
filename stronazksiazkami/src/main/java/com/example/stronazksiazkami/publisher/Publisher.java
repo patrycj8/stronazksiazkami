@@ -1,6 +1,7 @@
 package com.example.stronazksiazkami.publisher;
 
 import com.example.stronazksiazkami.book.Book;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,7 +43,6 @@ public class Publisher {
     private String website;
 
     @OneToMany(mappedBy = "publisher")
-    //@JsonBackReference //zeby nie bylo zapetlen
     private List<Book> books;
 
     public Publisher() {
@@ -53,9 +53,6 @@ public class Publisher {
         return "Publisher{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
                 ", website='" + website + '\'' +
                 '}';
     }

@@ -3,6 +3,9 @@ package com.example.stronazksiazkami.book;
 import com.example.stronazksiazkami.author.Author;
 import com.example.stronazksiazkami.publisher.Publisher;
 import com.example.stronazksiazkami.users.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +18,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table
+//@JsonIgnoreProperties({"author", "users"})
 public class Book {
     @Id
     @SequenceGenerator(
@@ -58,16 +62,13 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
-    // @JsonBackReference
     private Author author;
 
     @ManyToOne
-    // @JsonManagedReference
     @JoinColumn(name = "publisher_id", referencedColumnName = "id")
     private Publisher publisher;
 
     @ManyToMany
-    //@JsonManagedReference
     @JoinTable(
             name = "book_user",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -83,13 +84,10 @@ public class Book {
         return "Books{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", isbn=" + isbn +
+                ", isbn='" + isbn + '\'' +
                 ", price=" + price +
-                ", language='" + language + '\'' +
-                ", category='" + genre + '\'' +
-                ", popularity=" + rate +
-                ", pages=" + pages +
                 ", firstPublication=" + firstPublication +
+                ", author=" + (author != null ? author.getName() + " " + author.getSurname() : "Unknown") +
                 ", deleted=" + deleted +
                 '}';
     }

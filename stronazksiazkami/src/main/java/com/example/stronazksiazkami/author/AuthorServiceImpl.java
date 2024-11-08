@@ -24,6 +24,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author addNewAuthor(Author author) {
+        System.out.println("Adding new author: " + author.getName() + " " + author.getSurname());
         return authorRepository.save(author);
     }
 

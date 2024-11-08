@@ -41,7 +41,7 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public void deleteBookLogically(Integer booksId) {
         Book book = booksRepository.findById(booksId).orElseThrow(() -> new IllegalArgumentException("books with id " + booksId + " does not exist"));
-        booksRepository.delete(book);
+        book.setDeleted(true);
         booksRepository.save(book);
     }
 

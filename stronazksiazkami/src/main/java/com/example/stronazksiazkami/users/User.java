@@ -60,8 +60,6 @@ public class User {
                 ", surname='" + surname + '\'' +
                 ", phone=" + phone +
                 ", email='" + email + '\'' +
-                ", address='" + address + '\'' +
-                ", age=" + age +
                 '}';
     }
 }

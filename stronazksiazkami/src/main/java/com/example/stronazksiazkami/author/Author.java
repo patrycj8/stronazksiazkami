@@ -1,6 +1,8 @@
 package com.example.stronazksiazkami.author;
 
 import com.example.stronazksiazkami.book.Book;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -62,11 +64,8 @@ public class Author {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", country='" + country + '\'' +
-                ", bookCount=" + bookCount +
-                ", bornDate=" + born +
-                ", age=" + age +
-                ", isDeleted=" + deleted +
+                ", bookCount=" + (books != null ? books.size() : 0) +
+                ", deleted=" + deleted +
                 '}';
     }
 }
