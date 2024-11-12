@@ -21,7 +21,7 @@ public class BookServiceImpl implements BookService {
     }
 
     public List<Book> getBooks() {
-        return booksRepository.findAll();
+        return booksRepository.findAllByDeletedFalse();
     }
 
     public Book addNewBooks(Book books) {

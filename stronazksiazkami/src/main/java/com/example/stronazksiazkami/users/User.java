@@ -12,6 +12,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "users")
+
 public class User {
     @Id
     @SequenceGenerator(
@@ -30,6 +31,8 @@ public class User {
     private String name;
     private String surname;
     private String phone;
+
+    @Column(unique = true)
     private String email;
     private String address;
     private Integer age;

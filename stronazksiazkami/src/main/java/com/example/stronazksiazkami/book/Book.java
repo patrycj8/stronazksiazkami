@@ -3,9 +3,8 @@ package com.example.stronazksiazkami.book;
 import com.example.stronazksiazkami.author.Author;
 import com.example.stronazksiazkami.publisher.Publisher;
 import com.example.stronazksiazkami.users.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,8 +28,10 @@ public class Book {
             strategy = GenerationType.SEQUENCE,
             generator = "books_sequence"
     )
+
+
     @NotNull
-    private int id;
+    private Integer id;
 
     @NotNull
     private String title;
@@ -56,17 +57,18 @@ public class Book {
     @NotNull
     private LocalDate firstPublication;
 
-    @NotNull
     private Boolean deleted = false;
 
     @ManyToOne
-    @JoinColumn(name = "author_id", referencedColumnName = "id")
+    @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
     @ManyToOne
-    @JoinColumn(name = "publisher_id", referencedColumnName = "id")
+    @JoinColumn(name = "publisher_id", nullable = false)
+    //@JsonManagedReference
     private Publisher publisher;
 
+    @JsonIgnoreProperties({"book"})
     @ManyToMany
     @JoinTable(
             name = "book_user",

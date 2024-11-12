@@ -1,12 +1,15 @@
 package com.example.stronazksiazkami.publisher;
 
 import com.example.stronazksiazkami.book.Book;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.antlr.v4.runtime.misc.NotNull;
 
-import java.util.List;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,7 +27,7 @@ public class Publisher {
             generator = "publishers_sequence"
     )
     @NotNull
-    private int id;
+    private Integer id;
 
     @NotNull
     private String name;
@@ -42,7 +45,8 @@ public class Publisher {
     private String website;
 
     @OneToMany(mappedBy = "publisher")
-    private List<Book> books;
+    @JsonIgnoreProperties({"publisher"})
+    private Set<Book> books;
 
     public Publisher() {
     }
