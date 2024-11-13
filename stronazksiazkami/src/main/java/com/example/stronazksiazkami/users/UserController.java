@@ -8,9 +8,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/v1/users")
+public class UserController {
 
-public class UserController
-{
     private final UserServiceImpl usersService;
 
     @Autowired
@@ -19,28 +18,33 @@ public class UserController
     }
 
     @GetMapping
-    public List<User> getUsers()
-    {
+    public List<User> getUsers() {
         return usersService.getUsers();
     }
 
     @PostMapping
-    public ResponseEntity<User> registerNewUsers(@RequestBody User users)
-    {
-        User savedUser = usersService.addNewUsers(users);
+    public ResponseEntity<User> registerNewUser(@RequestBody User user, @RequestParam String loggedInUserEmail) {
+        User savedUser = usersService.addNewUser(user, loggedInUserEmail);
         return ResponseEntity.ok(savedUser);
     }
 
-    @DeleteMapping(path = "{usersId}")
-    public void deleteUsers(@PathVariable("usersId") Integer usersId)
-    {
-        usersService.deleteUsers(usersId);
+    @DeleteMapping(path = "{userId}")
+    public void deleteUser(@PathVariable("userId") Integer userId, @RequestParam String loggedInUserEmail) {
+        usersService.deleteUser(userId, loggedInUserEmail);
     }
 
-    @PutMapping(path = "/{usersId}")
-    public void updateAuthors(@PathVariable("usersId") Integer usersId,
-                              @RequestParam(required = false) String name,
-                              @RequestParam(required = false) String email) {
-        usersService.updateUsers(usersId, name, email);
+    @PutMapping(path = "/restore/{userId}")
+    public ResponseEntity<Void> restoreUser(@PathVariable("userId") Integer userId, @RequestParam String loggedInUserEmail) {
+        usersService.restoreUser(userId, loggedInUserEmail);
+        return ResponseEntity.ok().build();
+    }
+
+
+    @PutMapping(path = "/{userId}")
+    public ResponseEntity<User> updateUser(@PathVariable("userId") Integer userId,
+                                           @RequestBody User updateUser,
+                                           @RequestParam String loggedInUserEmail) {
+        User updatedUser = usersService.updateUser(userId, updateUser, loggedInUserEmail);
+        return ResponseEntity.ok(updatedUser);
     }
 }
