@@ -65,7 +65,6 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "publisher_id", nullable = false)
-    //@JsonManagedReference
     private Publisher publisher;
 
     @JsonIgnoreProperties({"book"})

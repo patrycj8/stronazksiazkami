@@ -16,12 +16,12 @@ public class PublisherServiceImpl {
     public PublisherServiceImpl(PublisherRepository publishersRepository) {
         this.publishersRepository = publishersRepository;
     }
-    public List<Publisher> getPublishers()
-    {
+
+    public List<Publisher> getPublishers() {
         return publishersRepository.findAll();
     }
 
-    public Publisher addNewPublishers(Publisher publishers) {
+    public Publisher addNewPublisher(Publisher publishers) {
         Optional<Publisher> publishersOptional = publishersRepository.findPublishersByName(publishers.getName());
         if (publishersOptional.isPresent()) {
             throw new IllegalArgumentException("name exists");
@@ -30,10 +30,9 @@ public class PublisherServiceImpl {
         return savedPublishers;
     }
 
-    public void deletePublishers(Integer publishersId) {
+    public void deletePublisher(Integer publishersId) {
         boolean exists = publishersRepository.existsById(publishersId);
-        if (!exists)
-        {
+        if (!exists) {
             throw new IllegalArgumentException("publisher with id " + publishersId + " does not exist");
 
         }

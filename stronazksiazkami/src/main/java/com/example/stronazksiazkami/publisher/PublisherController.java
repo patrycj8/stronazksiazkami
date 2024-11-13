@@ -17,28 +17,24 @@ public class PublisherController {
     }
 
     @GetMapping
-    public List<Publisher> getPublishers()
-    {
+    public List<Publisher> getPublishers() {
         return publishersService.getPublishers();
     }
 
     @PostMapping
-    public ResponseEntity<Publisher> registerNewPublishers(@RequestBody Publisher publishers)
-    {
-        Publisher savedPublishers = publishersService.addNewPublishers(publishers);
+    public ResponseEntity<Publisher> registerNewPublishers(@RequestBody Publisher publishers) {
+        Publisher savedPublishers = publishersService.addNewPublisher(publishers);
         return ResponseEntity.ok(savedPublishers);
     }
 
     @DeleteMapping(path = "{publishersId}")
-    public void deletePublishers(@PathVariable("publishersId") Integer publishersId)
-    {
-        publishersService.deletePublishers(publishersId);
+    public void deletePublishers(@PathVariable("publishersId") Integer publishersId) {
+        publishersService.deletePublisher(publishersId);
     }
 
     @PutMapping(path = "/{publishersId}")
     public ResponseEntity<Publisher> updatePublisher(@PathVariable("publishersId") Integer publishersId,
-                                                     @RequestBody Publisher updatedPublisher)
-    {
+                                                     @RequestBody Publisher updatedPublisher) {
         publishersService.updatePublisher(publishersId, updatedPublisher);
         return ResponseEntity.ok(updatedPublisher);
     }
