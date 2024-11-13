@@ -16,12 +16,12 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorServiceImpl(AuthorRepository authorsReposiory) {
         this.authorsRepository = authorsReposiory;
     }
-    public List<Author> getAuthors()
-    {
+
+    public List<Author> getAuthors() {
         return authorsRepository.findAll();
     }
 
-   public Author addNewAuthors(Author authors) {
+    public Author addNewAuthors(Author authors) {
         Optional<Author> authorsOptional = authorsRepository.findAuthorsBySurname(authors.getSurname());
         if (authorsOptional.isPresent()) {
             throw new IllegalArgumentException("surname exists");
@@ -30,25 +30,24 @@ public class AuthorServiceImpl implements AuthorService {
         return savedAuthors;
     }
 
-    //fizyczne usuniecie
     public void deleteAuthorsPermanently(Integer authorsId) {
         boolean exists = authorsRepository.existsById(authorsId);
-        if (!exists)
-        {
+        if (!exists) {
             throw new IllegalArgumentException("authots with id " + authorsId + " does not exist");
 
         }
         authorsRepository.deleteById(authorsId);
     }
+
     @Transactional
     public void updateAuthorsPermanently(Integer authorsId, String name, String surname) {
         Author authors = authorsRepository.findById(authorsId).orElseThrow(() -> new IllegalArgumentException("authors with id " + authorsId + " does not exist"));
-        if (name != null && name.length() >0 && !Objects.equals(authors.getName(), name)) {
+        if (name != null && name.length() > 0 && !Objects.equals(authors.getName(), name)) {
             authors.setName(name);
         }
-        if(surname !=null && surname.length() >0 && !Objects.equals(authors.getSurname(), surname)) {
+        if (surname != null && surname.length() > 0 && !Objects.equals(authors.getSurname(), surname)) {
             Optional<Author> authorsOptional = authorsRepository.findAuthorsBySurname(surname);
-            if(authorsOptional.isPresent()) {
+            if (authorsOptional.isPresent()) {
                 throw new IllegalArgumentException("surname exists");
             }
             authors.setSurname(surname);
