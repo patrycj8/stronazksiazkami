@@ -2,64 +2,114 @@ package com.example.stronazksiazkami.users;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
 
-    private final UserRepository usersRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository usersResposiory, PasswordEncoder passwordEncoder) {
-        this.usersRepository = usersResposiory;
-        this.passwordEncoder = passwordEncoder;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
+    @Override
     public List<User> getUsers() {
-        return usersRepository.findAll();
+        return userRepository.findAllActiveUsers();
     }
 
-    public User addNewUsers(User users) {
-        Optional<User> usersOptional = usersRepository.findUsersByEmail(users.getEmail());
-        if (usersOptional.isPresent()) {
+    public boolean isAdmin(String userEmail) {
+        Optional<User> userOptional = userRepository.findUsersByEmail(userEmail);
+        Boolean isAdmin = userOptional.map(User::getIsAdmin).orElse(false);
+        System.out.println("Checking if user is admin: " + userEmail + " - isAdmin: " + isAdmin);
+        return isAdmin;
+    }
+
+    @Override
+    public User addNewUser(User user, String loggedInUserEmail) {
+        if (!isAdmin(loggedInUserEmail)) {
+            throw new SecurityException("Only admin users can add new users");
+        }
+        Optional<User> userOptional = userRepository.findUsersByEmail(user.getEmail());
+        if (userOptional.isPresent()) {
             throw new IllegalArgumentException("email exists");
         }
-        users.setPassword(passwordEncoder.encode(users.getPassword()));
-        return usersRepository.save(users);
+        String encryptedPassword = simpleEncryptPassword(user.getPassword());
+        user.setPassword(encryptedPassword);
+
+        return userRepository.save(user);
     }
 
-    public void deleteUsers(Integer usersId) {
-        boolean exists = usersRepository.existsById(usersId);
-        if (!exists) {
-            throw new IllegalArgumentException("user with id " + usersId + " does not exist");
+    @Override
+    public void deleteUser(Integer userId, String loggedInUserEmail) {
+        if (!isAdmin(loggedInUserEmail)) {
+            throw new SecurityException("Only admin users can delete users");
         }
-        usersRepository.deleteById(usersId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("user not found"));
+        user.setDeleted(true);
+        userRepository.save(user);
     }
 
-    public boolean isAdmin(String email) {
-        Optional<User> usersOptional = usersRepository.findUsersByEmail(email);
-        return usersOptional.isPresent() && usersOptional.get().getIsAdmin();
+    public void restoreUser(Integer userId, String loggedInUserEmail) {
+        if (!isAdmin(loggedInUserEmail)) {
+            throw new SecurityException("Only admin users can restore users");
+        }
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("user not found"));
+        user.setDeleted(false);
+        userRepository.save(user);
     }
 
+    @Override
     @Transactional
-    public void updateUsers(Integer usersId, String name, String email) {
-        User users = usersRepository.findById(usersId).orElseThrow(() -> new IllegalArgumentException("users with id " + usersId + " does not exist"));
-        if (name != null && name.length() > 0 && !Objects.equals(users.getName(), name)) {
-            users.setName(name);
+    public User updateUser(Integer userId, User updateUser, String loggedInUserEmail) {
+        if (!isAdmin(loggedInUserEmail)) {
+            throw new SecurityException("Only admin users can update user");
         }
-        if (email != null && email.length() > 0 && !Objects.equals(users.getEmail(), email)) {
-            Optional<User> usersOptional = usersRepository.findUsersByEmail(email);
-            if (usersOptional.isPresent()) {
-                throw new IllegalArgumentException("email exists");
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User with id " + userId + " does not exist"));
+        if (updateUser.getLogin() != null) {
+            existingUser.setLogin(updateUser.getLogin());
+        }
+        if (updateUser.getPassword() != null) {
+            existingUser.setPassword(updateUser.getPassword());
+        }
+        if (updateUser.getName() != null) {
+            existingUser.setName(updateUser.getName());
+        }
+        if (updateUser.getSurname() != null) {
+            existingUser.setSurname(updateUser.getSurname());
+        }
+        if (updateUser.getPhone() != null) {
+            existingUser.setPhone(updateUser.getPhone());
+        }
+        if (updateUser.getEmail() != null) {
+            existingUser.setEmail(updateUser.getEmail());
+        }
+        if (updateUser.getAddress() != null) {
+            existingUser.setAddress(updateUser.getAddress());
+        }
+        if (updateUser.getAge() != null) {
+            existingUser.setAge(updateUser.getAge());
+        }
+        return userRepository.save(existingUser);
+    }
+
+    private String simpleEncryptPassword(String password) {
+        StringBuilder encrypted = new StringBuilder();
+        int shift = 5;
+
+        for (char e : password.toCharArray()) {
+            if (Character.isLetter(e)) {
+                char base = Character.isLowerCase(e) ? 'a' : 'A';
+                e = (char) ((e - base + shift) % 26 + base);
             }
-            users.setEmail(email);
+            encrypted.append(e);
         }
+        return encrypted.toString();
     }
 }
