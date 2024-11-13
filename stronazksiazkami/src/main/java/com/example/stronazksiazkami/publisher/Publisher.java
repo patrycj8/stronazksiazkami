@@ -1,7 +1,19 @@
+
 package com.example.stronazksiazkami.publisher;
 
+import com.example.stronazksiazkami.book.Book;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.antlr.v4.runtime.misc.NotNull;
 
+
+import java.util.Set;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "publishers")
 public class Publisher {
@@ -15,90 +27,29 @@ public class Publisher {
             strategy = GenerationType.SEQUENCE,
             generator = "publishers_sequence"
     )
-    private int id;
+    @NotNull
+    private Integer id;
+
+    @NotNull
     private String name;
+
+    @NotNull
     private String phone;
+
+    @NotNull
     private String address;
+
+    @NotNull
     private String email;
+
+    @NotNull
     private String website;
 
-    public Publisher()
-    {
-    }
+    @OneToMany(mappedBy = "publisher")
+    @JsonIgnoreProperties({"publisher"})
+    private Set<Book> books;
 
-    public Publisher(int id,
-                     String name,
-                     String phone,
-                     String address,
-                     String email,
-                     String website)
-    {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.address = address;
-        this.email = email;
-        this.website = website;
-    }
-
-    public Publisher(String website,
-                     String email,
-                     String address,
-                     String phone,
-                     String name) {
-        this.website = website;
-        this.email = email;
-        this.address = address;
-        this.phone = phone;
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
+    public Publisher() {
     }
 
     @Override
@@ -106,9 +57,6 @@ public class Publisher {
         return "Publisher{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
                 ", website='" + website + '\'' +
                 '}';
     }

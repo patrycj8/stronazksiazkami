@@ -1,9 +1,21 @@
+
 package com.example.stronazksiazkami.book;
 
+import com.example.stronazksiazkami.author.Author;
+import com.example.stronazksiazkami.publisher.Publisher;
+import com.example.stronazksiazkami.users.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
+import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table
 public class Book {
@@ -17,129 +29,55 @@ public class Book {
             strategy = GenerationType.SEQUENCE,
             generator = "books_sequence"
     )
-    private int id;
+
+
+    @NotNull
+    private Integer id;
+
+    @NotNull
     private String title;
+
+    @NotNull
     private String isbn;
+
+    @NotNull
     private Double price;
+
+    @NotNull
     private String language;
+
+    @NotNull
     private String genre;
+
+    @NotNull
     private Integer rate;
+
+    @NotNull
     private Integer pages;
+
+    @NotNull
     private LocalDate firstPublication;
 
-    public Book()
-    {
-    }
+    private Boolean deleted = false;
 
-    public Book(int id,
-                String title,
-                String isbn,
-                Double price,
-                String language,
-                String genre,
-                Integer rate,
-                Integer pages,
-                LocalDate firstPublication)
-    {
-        this.id = id;
-        this.title = title;
-        this.isbn = isbn;
-        this.price = price;
-        this.language = language;
-        this.genre = genre;
-        this.rate = rate;
-        this.pages = pages;
-        this.firstPublication = firstPublication;
-    }
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private Author author;
 
-    public Book(LocalDate firstPublication,
-                Integer pages,
-                Integer rate,
-                String category,
-                String language,
-                Double price,
-                String isbn,
-                String title) {
-        this.firstPublication = firstPublication;
-        this.pages = pages;
-        this.rate = rate;
-        this.genre = category;
-        this.language = language;
-        this.price = price;
-        this.isbn = isbn;
-        this.title = title;
-    }
+    @ManyToOne
+    @JoinColumn(name = "publisher_id", nullable = false)
+    private Publisher publisher;
 
-    public int getId() {
-        return id;
-    }
+    @JsonIgnoreProperties({"book"})
+    @ManyToMany
+    @JoinTable(
+            name = "book_user",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> users;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String category) {
-        this.genre = category;
-    }
-
-    public Integer getRate() {
-        return rate;
-    }
-
-    public void setRate(Integer rate) {
-        this.rate = rate;
-    }
-
-    public Integer getPages() {
-        return pages;
-    }
-
-    public void setPages(Integer pages) {
-        this.pages = pages;
-    }
-
-    public LocalDate getFirstPublication() {
-        return firstPublication;
-    }
-
-    public void setFirstPublication(LocalDate firstPublication) {
-        this.firstPublication = firstPublication;
+    public Book() {
     }
 
     @Override
@@ -147,13 +85,11 @@ public class Book {
         return "Books{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", isbn=" + isbn +
+                ", isbn='" + isbn + '\'' +
                 ", price=" + price +
-                ", language='" + language + '\'' +
-                ", category='" + genre + '\'' +
-                ", popularity=" + rate +
-                ", pages=" + pages +
                 ", firstPublication=" + firstPublication +
+                ", author=" + (author != null ? author.getName() + " " + author.getSurname() : "Unknown") +
+                ", deleted=" + deleted +
                 '}';
     }
 }

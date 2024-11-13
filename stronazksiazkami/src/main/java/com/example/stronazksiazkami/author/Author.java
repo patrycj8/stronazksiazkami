@@ -1,9 +1,18 @@
 package com.example.stronazksiazkami.author;
 
+import com.example.stronazksiazkami.book.Book;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table
 public class Author {
@@ -17,112 +26,36 @@ public class Author {
             strategy = GenerationType.SEQUENCE,
             generator = "authors_sequence"
     )
-    private int id;
+    @NotNull
+    private Integer id;
+
+    @NotNull
     private String name;
+
+    @NotNull
     private String surname;
+
+    @NotNull
     private String country;
+
+    @NotNull
     private Integer bookCount;
+
+    @NotNull
     private LocalDate born;
+
+    @NotNull
     private Integer age;
-    private boolean isDeleted = false;
 
-    public Author()
-    {
+    @NotNull
+    private Boolean deleted = false;
+
+    @OneToMany(mappedBy = "author")
+    private Set<Book> books;
+
+
+    public Author() {
     }
-
-    public Author(int id,
-                  String name,
-                  String surname,
-                  String country,
-                  Integer bookCount,
-                  LocalDate born,
-                  Integer age,
-                  boolean isDeleted)
-    {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.country = country;
-        this.bookCount = bookCount;
-        this.born = born;
-        this.age = age;
-        this.isDeleted = isDeleted;
-    }
-
-    public Author(LocalDate born,
-                  Integer bookCount,
-                  String country,
-                  String surname,
-                  String name,
-                  Integer age,
-                  boolean isDeleted)
-    {
-        this.born = born;
-        this.bookCount = bookCount;
-        this.country = country;
-        this.surname = surname;
-        this.name = name;
-        this.age = age;
-        this.isDeleted = isDeleted;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public Integer getBookCount() {
-        return bookCount;
-    }
-
-    public void setBookCount(Integer bookCount) {
-        this.bookCount = bookCount;
-    }
-
-    public LocalDate getBorn() {
-        return born;
-    }
-
-    public void setBorn(LocalDate born) {
-        this.born = born;
-    }
-
-    public Integer getAge() {return age;}
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public boolean isDeleted() {return isDeleted;}
-
-    public void setDeleted(boolean isDeleted) {this.isDeleted = isDeleted;}
 
     @Override
     public String toString() {
@@ -130,11 +63,8 @@ public class Author {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", country='" + country + '\'' +
-                ", bookCount=" + bookCount +
-                ", bornDate=" + born +
-                ", age=" + age +
-                ", isDeleted=" + isDeleted +
+                ", bookCount=" + (books != null ? books.size() : 0) +
+                ", deleted=" + deleted +
                 '}';
     }
 }
