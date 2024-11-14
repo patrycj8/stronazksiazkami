@@ -1,16 +1,24 @@
 package com.example.stronazksiazkami.users;
 
+import com.example.stronazksiazkami.model.AuthenticatedUser;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
@@ -19,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsers() {
-        return userRepository.findAllActiveUsers();
+        return userRepository.findAll();
     }
 
     public boolean isAdmin(String userEmail) {
@@ -38,15 +46,15 @@ public class UserServiceImpl implements UserService {
         if (userOptional.isPresent()) {
             throw new IllegalArgumentException("email exists");
         }
-        String encryptedPassword = simpleEncryptPassword(user.getPassword());
+        String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
 
         return userRepository.save(user);
     }
 
     @Override
-    public void deleteUser(Integer userId,String loggedInUserEmail) {
-        if(!isAdmin(loggedInUserEmail)) {
+    public void deleteUser(Integer userId, String loggedInUserEmail) {
+        if (!isAdmin(loggedInUserEmail)) {
             throw new SecurityException("Only admin users can delete users");
         }
         User user = userRepository.findById(userId)
@@ -54,8 +62,9 @@ public class UserServiceImpl implements UserService {
         user.setDeleted(true);
         userRepository.save(user);
     }
-    public void restoreUser(Integer userId,String loggedInUserEmail) {
-        if(!isAdmin(loggedInUserEmail)) {
+
+    public void restoreUser(Integer userId, String loggedInUserEmail) {
+        if (!isAdmin(loggedInUserEmail)) {
             throw new SecurityException("Only admin users can restore users");
         }
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("user not found"));
@@ -65,8 +74,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User updateUser(Integer userId, User updateUser, String loggedInUserEmail)
-    {
+    public User updateUser(Integer userId, User updateUser, String loggedInUserEmail) {
         if (!isAdmin(loggedInUserEmail)) {
             throw new SecurityException("Only admin users can update user");
         }
@@ -99,17 +107,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(existingUser);
     }
 
-    private String simpleEncryptPassword(String password) {
-        StringBuilder encrypted = new StringBuilder();
-        int shift = 5;
-
-        for (char e : password.toCharArray()) {
-            if (Character.isLetter(e)) {
-                char base = Character.isLowerCase(e) ? 'a' : 'A';
-                e = (char) ((e - base + shift) % 26 + base);
-            }
-            encrypted.append(e);
-        }
-        return encrypted.toString();
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User u = userRepository.findUsersByName(username);
+        return new AuthenticatedUser(u);
     }
 }
