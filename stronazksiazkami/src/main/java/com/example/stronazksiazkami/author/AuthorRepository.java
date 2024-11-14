@@ -10,7 +10,5 @@ import java.util.Optional;
 public interface AuthorRepository extends JpaRepository<Author, Integer> {
 
     Optional<Author> findAuthorsBySurname(String surname);
-
-    //List<Authors> findAllByIsDeletedFalse();
 }
 
