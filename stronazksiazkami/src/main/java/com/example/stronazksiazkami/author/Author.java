@@ -2,6 +2,7 @@ package com.example.stronazksiazkami.author;
 
 import com.example.stronazksiazkami.book.Book;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

@@ -3,6 +3,7 @@ package com.example.stronazksiazkami.book;
 import com.example.stronazksiazkami.author.Author;
 import com.example.stronazksiazkami.publisher.Publisher;
 import com.example.stronazksiazkami.users.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -67,7 +68,6 @@ public class Book {
     @JoinColumn(name = "publisher_id", nullable = false)
     private Publisher publisher;
 
-    @JsonIgnoreProperties({"book"})
     @ManyToMany
     @JoinTable(
             name = "book_user",
@@ -91,4 +91,10 @@ public class Book {
                 ", deleted=" + deleted +
                 '}';
     }
+
+    @JsonIgnore
+    public Publisher getPublisher() {
+        return publisher;
+    }
+
 }
