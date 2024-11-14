@@ -1,11 +1,18 @@
 package com.example.stronazksiazkami.author;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-public interface AuthorService
-{
+@Service
+public interface AuthorService {
     List<Author> getAuthors();
-    Author addNewAuthors(Author authors);
-    void deleteAuthorsPermanently(Integer authorsId);
-    void updateAuthorsPermanently(Integer authorsId, String name, String surname);
+
+    Author addNewAuthor(Author author);
+
+    void deleteAuthor(Integer authorId, String email);
+
+    Author updateAuthor(Integer authorId, Author updateAuthor);
+
+    void deleteAuthorLogically(Integer authorId);
 }

@@ -1,59 +1,75 @@
 package com.example.stronazksiazkami.author;
 
-import jakarta.transaction.Transactional;
+import com.example.stronazksiazkami.users.User;
+import com.example.stronazksiazkami.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import jakarta.transaction.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
-@Component
+@Service
 public class AuthorServiceImpl implements AuthorService {
-    private final AuthorRepository authorsRepository;
+    private final AuthorRepository authorRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public AuthorServiceImpl(AuthorRepository authorsReposiory) {
-        this.authorsRepository = authorsReposiory;
+    public AuthorServiceImpl(AuthorRepository authorRepository, UserRepository userRepository) {
+        this.authorRepository = authorRepository;
+        this.userRepository = userRepository;
     }
 
+    @Override
     public List<Author> getAuthors() {
-        return authorsRepository.findAll();
+        return authorRepository.findAllByDeletedFalse();
     }
 
-    public Author addNewAuthors(Author authors) {
-        Optional<Author> authorsOptional = authorsRepository.findAuthorsBySurname(authors.getSurname());
-        if (authorsOptional.isPresent()) {
-            throw new IllegalArgumentException("surname exists");
-        }
-        Author savedAuthors = authorsRepository.save(authors);
-        return savedAuthors;
+    @Override
+    public Author addNewAuthor(Author author) {
+        System.out.println("Adding new author: " + author.getName() + " " + author.getSurname());
+        return authorRepository.save(author);
     }
 
-    public void deleteAuthorsPermanently(Integer authorsId) {
-        boolean exists = authorsRepository.existsById(authorsId);
-        if (!exists) {
-            throw new IllegalArgumentException("authots with id " + authorsId + " does not exist");
-
+    @Override
+    @Transactional
+    public void deleteAuthor(Integer authorId, String email) {
+        if (!isAdmin(email)) {
+            throw new IllegalArgumentException("You are not authorized to delete this author");
         }
-        authorsRepository.deleteById(authorsId);
+        if (!authorRepository.existsById(authorId)) {
+            throw new IllegalArgumentException("Author with id " + authorId + " does not exist");
+        }
+        authorRepository.deleteById(authorId);
     }
 
     @Transactional
-    public void updateAuthorsPermanently(Integer authorsId, String name, String surname) {
-        Author authors = authorsRepository.findById(authorsId).orElseThrow(() -> new IllegalArgumentException("authors with id " + authorsId + " does not exist"));
-        if (name != null && name.length() > 0 && !Objects.equals(authors.getName(), name)) {
-            authors.setName(name);
-        }
-        if (surname != null && surname.length() > 0 && !Objects.equals(authors.getSurname(), surname)) {
-            Optional<Author> authorsOptional = authorsRepository.findAuthorsBySurname(surname);
-            if (authorsOptional.isPresent()) {
-                throw new IllegalArgumentException("surname exists");
-            }
-            authors.setSurname(surname);
-
-        }
+    public void deleteAuthorLogically(Integer authorId) {
+        Author author = authorRepository.findById(authorId).orElseThrow(() -> new IllegalArgumentException("Author with id " + authorId + " does not exist"));
+        author.setDeleted(true);
+        authorRepository.save(author);
     }
 
 
+    @Override
+    @Transactional
+    public Author updateAuthor(Integer authorId, Author updateAuthor) {
+        Author existingAuthor = authorRepository.findById(authorId)
+                .orElseThrow(() -> new IllegalArgumentException("Author with id " + authorId + " does not exist"));
+
+        existingAuthor.setName(updateAuthor.getName());
+        existingAuthor.setSurname(updateAuthor.getSurname());
+        existingAuthor.setCountry(updateAuthor.getCountry());
+        existingAuthor.setBookCount(updateAuthor.getBookCount());
+        existingAuthor.setBorn(updateAuthor.getBorn());
+        existingAuthor.setAge(updateAuthor.getAge());
+
+        return authorRepository.save(existingAuthor);
+    }
+
+    private boolean isAdmin(String email) {
+        Optional<User> user = userRepository.findUsersByEmail(email);
+        return user.isPresent() && user.get().getIsAdmin();
+    }
 }

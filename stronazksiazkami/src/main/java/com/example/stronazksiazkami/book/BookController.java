@@ -17,22 +17,26 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> getBooks()
-    {
+    public List<Book> getBooks() {
         return booksService.getBooks();
     }
 
     @PostMapping
-    public ResponseEntity<Book> registerNewBooks(@RequestBody Book books)
-    {
+    public ResponseEntity<Book> registerNewBooks(@RequestBody Book books) {
         Book savedBook = booksService.addNewBooks(books);
         return ResponseEntity.ok(savedBook);
     }
 
-    @DeleteMapping(path = "{booksId}")
-    public void deleteBooks(@PathVariable("booksId") Integer booksId)
-    {
-        booksService.deleteBooks(booksId);
+    @DeleteMapping(path = "delete/{booksId}")
+    public void deleteBooks(@PathVariable("booksId") Integer booksId,
+                            @RequestParam("email") String email) {
+        booksService.deleteBooks(booksId, email);
+    }
+
+    @DeleteMapping(path = "/deleteLogically/{bookId}")
+    public ResponseEntity<Void> deleteBookLogically(@PathVariable("bookId") Integer bookId) {
+        booksService.deleteBookLogically(bookId);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "/{booksId}")

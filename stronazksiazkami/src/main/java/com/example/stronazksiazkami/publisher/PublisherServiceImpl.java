@@ -16,12 +16,12 @@ public class PublisherServiceImpl {
     public PublisherServiceImpl(PublisherRepository publishersRepository) {
         this.publishersRepository = publishersRepository;
     }
-    public List<Publisher> getPublishers()
-    {
+
+    public List<Publisher> getPublishers() {
         return publishersRepository.findAll();
     }
 
-    public Publisher addNewPublishers(Publisher publishers) {
+    public Publisher addNewPublisher(Publisher publishers) {
         Optional<Publisher> publishersOptional = publishersRepository.findPublishersByName(publishers.getName());
         if (publishersOptional.isPresent()) {
             throw new IllegalArgumentException("name exists");
@@ -30,10 +30,9 @@ public class PublisherServiceImpl {
         return savedPublishers;
     }
 
-    public void deletePublishers(Integer publishersId) {
+    public void deletePublisher(Integer publishersId) {
         boolean exists = publishersRepository.existsById(publishersId);
-        if (!exists)
-        {
+        if (!exists) {
             throw new IllegalArgumentException("publisher with id " + publishersId + " does not exist");
 
         }
@@ -55,15 +54,9 @@ public class PublisherServiceImpl {
             }
             publisher.setPhone(updatedPublisher.getPhone());
         }
-        if (updatedPublisher.getEmail() != null) {
-            publisher.setEmail(updatedPublisher.getEmail());
-        }
-        if (updatedPublisher.getAddress() != null) {
-            publisher.setAddress(updatedPublisher.getAddress());
-        }
-        if (updatedPublisher.getWebsite() != null) {
-            publisher.setWebsite(updatedPublisher.getWebsite());
-        }
+        publisher.setEmail(updatedPublisher.getEmail());
+        publisher.setAddress(updatedPublisher.getAddress());
+        publisher.setWebsite(updatedPublisher.getWebsite());
 
         publishersRepository.save(publisher);
     }
