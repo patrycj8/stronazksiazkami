@@ -3,6 +3,7 @@ package com.example.stronazksiazkami.publisher;
 
 import com.example.stronazksiazkami.book.Book;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -46,7 +47,7 @@ public class Publisher {
     private String website;
 
     @OneToMany(mappedBy = "publisher")
-    @JsonIgnoreProperties({"publisher"})
+    @JsonIgnore
     private Set<Book> books;
 
     public Publisher() {
